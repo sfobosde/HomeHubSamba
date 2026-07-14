@@ -1,6 +1,10 @@
 services:
   homehub-samba:
     container_name: homehub-samba
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
     restart: unless-stopped
     build:
       context: ../samba
@@ -18,9 +22,12 @@ services:
       - "464:464"
       - "636:636"
     volumes:
-      - samba-db:/var/lib/samba
-      - samba-cache:/var/cache/samba
-      - samba-config:/etc/samba
+      # - samba-db:/var/lib/samba
+      # - samba-cache:/var/cache/samba
+      # - samba-config:/etc/samba
+      - /opt/homehub/samba/data:/var/lib/samba
+      - /opt/homehub/samba/cache:/var/cache/samba
+      - /opt/homehub/samba/config:/etc/samba
 
 volumes:
   samba-db:
