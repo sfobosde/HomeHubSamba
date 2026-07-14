@@ -19,4 +19,4 @@ if [ ! -f /var/lib/samba/private/secrets.ldb ]; then
         --adminpass="$PASSWORD"
 fi
 
-exec samba --foreground
+exec samba --foreground --debug-stdout
