@@ -1,0 +1,30 @@
+name: Deploy Development
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+
+    runs-on: self-hosted
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Show Docker version
+        run: docker --version
+
+      - name: Build image
+        run: |
+          docker compose -f deploy/docker-compose.yml build
+
+      - name: Restart application
+        run: |
+          docker compose -f deploy/docker-compose.yml up -d
+
+      - name: Remove unused images
+        run: docker image prune -f
