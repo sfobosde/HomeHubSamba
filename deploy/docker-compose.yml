@@ -1,0 +1,28 @@
+services:
+  homehub-samba:
+    container_name: homehub-samba
+    restart: unless-stopped
+    build:
+      context: ../samba
+    hostname: dc1
+    env_file:
+      - ../.env
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "88:88/tcp"
+      - "88:88/udp"
+      - "135:135"
+      - "389:389"
+      - "446:445"
+      - "464:464"
+      - "636:636"
+    volumes:
+      - samba-db:/var/lib/samba
+      - samba-cache:/var/cache/samba
+      - samba-config:/etc/samba
+
+volumes:
+  samba-db:
+  samba-cache:
+  samba-config:
