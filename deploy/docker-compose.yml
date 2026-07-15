@@ -25,9 +25,9 @@ services:
       # - samba-db:/var/lib/samba
       # - samba-cache:/var/cache/samba
       # - samba-config:/etc/samba
-      - ../data/samba/db:/var/lib/samba
-      - ../data/samba/cache:/var/cache/samba
-      - ../data/samba/config:/etc/samba
+      - ../../data/samba/db:/var/lib/samba
+      - ../../data/samba/cache:/var/cache/samba
+      - ../../data/samba/config:/etc/samba
 
 volumes:
   samba-db:
