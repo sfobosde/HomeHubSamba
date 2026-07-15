@@ -1,22 +1,19 @@
 #!/usr/bin/env bash
 set -e
 
-REALM="${SAMBA_REALM}"
-DOMAIN="${SAMBA_DOMAIN}"
-HOSTNAME="${SAMBA_HOSTNAME}"
-PASSWORD="${SAMBA_ADMIN_PASSWORD}"
-DNS_BACKEND="${SAMBA_DNS_BACKEND:-SAMBA_INTERNAL}"
-
 if [ ! -f /var/lib/samba/private/secrets.ldb ]; then
     rm -f /etc/samba/smb.conf
 
     samba-tool domain provision \
-        --realm="$REALM" \
-        --domain="$DOMAIN" \
-        --host-name="$HOSTNAME" \
+        --realm="$SAMBA_REALM" \
+        --domain="$SAMBA_DOMAIN" \
+        --host-name="$SAMBA_HOSTNAME" \
         --server-role=dc \
-        --dns-backend="$DNS_BACKEND" \
-        --adminpass="$PASSWORD"
+        --dns-backend="$SAMBA_DNS_BACKEND" \
+        --adminpass="$SAMBA_ADMIN_PASSWORD"
 fi
+
+# Всегда используем krb5.conf, созданный Samba
+ln -sf /var/lib/samba/private/krb5.conf /etc/krb5.conf
 
 exec samba --foreground --debug-stdout
